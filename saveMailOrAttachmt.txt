@@ -1,0 +1,46 @@
+# Some Outlook macro to save mails/attachments
+
+Sub saveAttachmentOnDisk(itm As Outlook.MailItem)
+Dim objAtt As Outlook.Attachment
+Dim saveFolder As String
+Debug.Print "saveAttachtoDisk " & saveFolder
+saveFolder = "C:\...."
+    For Each objAtt In itm.Attachments
+        objAtt.SaveAsFile saveFolder & "\" & objAtt.DisplayName
+        Set objAtt = Nothing
+    Next
+End Sub
+
+Sub saveMsgByDate()
+    Dim saveFolder As String
+    Dim saveName As String
+    Dim saveDate As String
+    saveName = itm.Subject
+    saveDate = Left(Split(saveName, "-", 4)(1), 6)
+    saveDay = Split(saveName, "-", 4)(1)
+    saveFolder = "C:\...\" & saveDate & "\"
+    If Len(Dir(saveFolder, vbDirectory)) = 0 Then
+       MkDir saveFolder
+    End If
+    saveFolder = "C:\...\" & saveDate & "\" & saveDay & "\"
+    If Len(Dir(saveFolder, vbDirectory)) = 0 Then
+        MkDir (saveFolder)
+    End If
+    itm.SaveAs saveFolder & saveName & ".msg", olMSG
+End Sub
+
+Sub saveMsg()
+    Dim saveFolder As String
+    Dim saveName As String
+    Dim saveDate As String
+    saveName = itm.Subject
+    saveName = Replace(saveName, ":", "_")
+    saveDate = Left(Split(saveName, "-", 4)(2), 6)
+    saveFolder = "C:\...\" & saveDate & "\"
+    If Len(Dir(saveFolder, vbDirectory)) = 0 Then
+        MkDir (saveFolder)
+    End If
+    itm.SaveAs saveFolder & saveName & ".msg", olMSG
+End Sub
+
+
